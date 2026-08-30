@@ -1,0 +1,15 @@
+<View>
+  <Header value="Classify the overall sentiment of this product or game review" />
+  <Text name="review_text" value="$text" />
+  <Choices
+    name="sentiment"
+    toName="review_text"
+    choice="single"
+    showInline="true"
+    required="true"
+  >
+    <Choice value="negative" background="#ef5350" />
+    <Choice value="positive" background="#66bb6a" />
+  </Choices>
+</View>
+

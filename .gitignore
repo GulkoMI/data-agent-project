@@ -1,0 +1,58 @@
+# macOS and editors
+.DS_Store
+.AppleDouble
+.LSOverride
+.idea/
+.vscode/
+*.swp
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Python caches and build artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+build/
+dist/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Local Python/runtime environments
+.venv/
+.venv.codex-backup-*/
+.runtime/
+.uv-cache/
+
+# Downloaded Hugging Face assets
+# These files are restored from the public IDs declared in config.yaml.
+data/external/
+models/huggingface/
+
+# Generated caches and isolated smoke-test outputs
+data/cache/
+data/runs/
+data/smoke/
+models/smoke/
+reports/smoke/
+
+# Temporary files and logs
+*.tmp
+*.bak
+*~
+*.log
+!reports/pipeline_rerun.log
+
+# The trained submission model remains versionable:
+# models/sentiment_model.joblib

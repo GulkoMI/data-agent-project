@@ -1,0 +1,34 @@
+{
+  "kappa": 0.7759197324414715,
+  "agreement": 0.8879598662207357,
+  "label_dist": {
+    "negative": 316,
+    "positive": 282
+  },
+  "label_distribution": {
+    "negative": {
+      "count": 316,
+      "share": 0.5284280936454849
+    },
+    "positive": {
+      "count": 282,
+      "share": 0.47157190635451507
+    }
+  },
+  "confidence_mean": 0.9794556478592863,
+  "needs_review": 30,
+  "backend_distribution": {
+    "transformers:distilbert/distilbert-base-uncased-finetuned-sst-2-english": 598
+  },
+  "degraded_fallback_used": false,
+  "against_source_label": {
+    "n_compared": 598,
+    "agreement": 0.8879598662207357,
+    "kappa": 0.7759197324414715
+  },
+  "against_human_label": {
+    "n_compared": 0,
+    "agreement": null,
+    "kappa": null
+  }
+}

@@ -1,0 +1,107 @@
+project:
+  name: cross_domain_review_sentiment
+  task: binary_sentiment_classification
+  modality: text
+  labels: [negative, positive]
+  random_seed: 42
+
+paths:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  labeled_dir: data/labeled
+  review_dir: data/review
+  cache_dir: data/cache
+  reports_dir: reports
+  models_dir: models
+
+collection:
+  output: data/raw/reviews_raw.parquet
+  sources:
+    - id: amazon_polarity
+      type: hf_dataset
+      name: mteb/amazon_polarity
+      local_path: data/external/huggingface/amazon_polarity/data/train-*.parquet
+      local_format: parquet
+      split: train
+      streaming: true
+      sample_size: 300
+      per_label: 150
+      text_field: text
+      label_field: label
+      label_map:
+        0: negative
+        1: positive
+    - id: steam_reviews
+      type: hf_dataset
+      name: reapxdev/steam-reviews-scraper
+      local_path: data/external/huggingface/steam_reviews/steam-reviews-scraper.jsonl
+      local_format: json
+      split: train
+      streaming: true
+      sample_size: 300
+      per_label: 150
+      text_field: reviewText
+      label_field: votedUp
+      label_map:
+        false: negative
+        true: positive
+      id_field: reviewId
+      filters:
+        language: english
+      metadata_fields:
+        - appId
+        - appName
+        - votesUp
+        - playtimeForeverHours
+  eda:
+    top_words: 20
+    max_features: 5000
+
+quality:
+  selected_strategy: conservative
+  strategies:
+    conservative:
+      missing: drop_required
+      duplicates: drop
+      outliers: clip_iqr
+    strict:
+      missing: drop_required
+      duplicates: drop
+      outliers: drop_iqr
+  outlier:
+    iqr_multiplier: 1.5
+    z_threshold: 3.0
+
+annotation:
+  backend: transformers
+  model: distilbert/distilbert-base-uncased-finetuned-sst-2-english
+  local_model_path: models/huggingface/distilbert-base-uncased-finetuned-sst-2-english
+  batch_size: 16
+  max_length: 512
+  confidence_threshold: 0.80
+  review_target: 30
+  labels: [negative, positive]
+  device: auto
+  allow_lexicon_fallback: false
+  ollama:
+    enabled: false
+    base_url: http://localhost:11434
+    model: gemma3:4b
+
+active_learning:
+  model: logreg
+  initial_size: 50
+  n_iterations: 5
+  batch_size: 20
+  strategies: [entropy, margin, random]
+  test_size: 0.20
+  random_seed: 42
+  tfidf:
+    max_features: 10000
+    ngram_range: [1, 2]
+
+training:
+  test_size: 0.20
+  random_seed: 42
+  max_features: 15000
+  ngram_range: [1, 2]

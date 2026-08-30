@@ -1,0 +1,78 @@
+{
+  "status": "ok",
+  "started_at": "2026-08-30T13:47:14.051846+00:00",
+  "finished_at": "2026-08-30T13:47:21.045954+00:00",
+  "config": "./config.yaml",
+  "required_non_empty_sources": 2,
+  "successful_sources": 2,
+  "sources": [
+    {
+      "id": "amazon_polarity",
+      "type": "hf_dataset",
+      "status": "ok",
+      "rows": 300,
+      "labels": {
+        "negative": 150,
+        "positive": 150
+      },
+      "artifacts": [
+        "./data/raw/source_amazon_polarity.parquet",
+        "./data/raw/source_amazon_polarity.csv"
+      ]
+    },
+    {
+      "id": "steam_reviews",
+      "type": "hf_dataset",
+      "status": "ok",
+      "rows": 300,
+      "labels": {
+        "negative": 150,
+        "positive": 150
+      },
+      "artifacts": [
+        "./data/raw/source_steam_reviews.parquet",
+        "./data/raw/source_steam_reviews.csv"
+      ]
+    }
+  ],
+  "rows": 600,
+  "columns": [
+    "record_id",
+    "text",
+    "audio",
+    "image",
+    "label",
+    "source",
+    "source_id",
+    "collected_at",
+    "dataset_name",
+    "dataset_split",
+    "appId",
+    "appName",
+    "votesUp",
+    "playtimeForeverHours"
+  ],
+  "label_distribution": {
+    "negative": 300,
+    "positive": 300
+  },
+  "source_distribution": {
+    "amazon_polarity": 300,
+    "steam_reviews": 300
+  },
+  "merged_artifacts": [
+    "./data/raw/reviews_raw.parquet",
+    "./data/raw/reviews_raw.csv"
+  ],
+  "eda_artifacts": [
+    "./reports/eda/class_distribution.csv",
+    "./reports/eda/source_distribution.csv",
+    "./reports/eda/text_lengths.csv",
+    "./reports/eda/top_20_words.csv",
+    "./reports/eda/text_length_summary.json",
+    "./reports/eda/class_distribution.png",
+    "./reports/eda/source_distribution.png",
+    "./reports/eda/top_20_words.png",
+    "./reports/eda/text_length_distribution.png"
+  ]
+}

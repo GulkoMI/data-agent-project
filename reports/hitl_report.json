@@ -1,0 +1,11 @@
+{
+  "verified": true,
+  "reviewed_rows": 30,
+  "changed_labels": 0,
+  "reviewer_count": 1,
+  "auto_vs_human": {
+    "n_compared": 30,
+    "agreement": 1.0,
+    "kappa": 1.0
+  }
+}

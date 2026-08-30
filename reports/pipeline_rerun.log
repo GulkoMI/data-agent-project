@@ -1,0 +1,922 @@
+{
+  "status": "completed",
+  "completed_stages": [
+    "collection",
+    "quality",
+    "annotation",
+    "human_review",
+    "active_learning",
+    "training",
+    "reporting"
+  ],
+  "artifacts": {
+    "raw_dataset": "./data/raw/reviews_raw.parquet",
+    "clean_dataset": "./data/processed/reviews_clean.parquet",
+    "auto_labeled_dataset": "./data/labeled/reviews_auto_labeled.parquet",
+    "review_queue": "./data/review/review_queue.csv",
+    "labelstudio_import": "./data/review/labelstudio_import.json",
+    "final_dataset": "./data/labeled/reviews_final.parquet",
+    "learning_curve": "./reports/active_learning/learning_curves.png",
+    "al_selected_training": "./data/labeled/al_selected_training.parquet",
+    "outer_holdout": "./data/labeled/outer_holdout.parquet",
+    "model": "./models/sentiment_model.joblib",
+    "final_report": "./reports/final_report.md"
+  },
+  "metrics": {
+    "quality": {
+      "selected_strategy": "conservative",
+      "before": {
+        "row_count": 600,
+        "column_count": 14,
+        "missing": {
+          "record_id": 0,
+          "text": 0,
+          "audio": 600,
+          "image": 600,
+          "label": 0,
+          "source": 0,
+          "source_id": 0,
+          "collected_at": 0,
+          "dataset_name": 0,
+          "dataset_split": 0,
+          "appId": 300,
+          "appName": 300,
+          "votesUp": 300,
+          "playtimeForeverHours": 300
+        },
+        "missing_total": 2400,
+        "rows_with_missing": 600,
+        "empty_text": 0,
+        "empty_text_indices": [],
+        "duplicates": 0,
+        "duplicate_indices": [],
+        "text_duplicates": 2,
+        "text_duplicate_indices": [
+          333,
+          539
+        ],
+        "outliers": {
+          "iqr": {
+            "count": 42,
+            "indices": [
+              304,
+              306,
+              308,
+              320,
+              322,
+              325,
+              326,
+              338,
+              343,
+              344,
+              351,
+              369,
+              371,
+              378,
+              382,
+              384,
+              387,
+              390,
+              392,
+              393,
+              398,
+              401,
+              406,
+              437,
+              442,
+              457,
+              458,
+              469,
+              477,
+              485,
+              487,
+              493,
+              500,
+              532,
+              537,
+              539,
+              548,
+              567,
+              573,
+              576,
+              587,
+              589
+            ],
+            "q1": 182.0,
+            "q3": 592.75,
+            "iqr": 410.75,
+            "lower_bound": 0.0,
+            "upper_bound": 1208.875,
+            "multiplier": 1.5
+          },
+          "zscore": {
+            "count": 13,
+            "indices": [
+              322,
+              325,
+              343,
+              369,
+              371,
+              378,
+              382,
+              387,
+              406,
+              457,
+              493,
+              548,
+              567
+            ],
+            "mean": 574.4416666666667,
+            "std": 918.234058722079,
+            "threshold": 3.0
+          }
+        },
+        "imbalance": {
+          "label_column": "label",
+          "counts": {
+            "negative": 300,
+            "positive": 300
+          },
+          "proportions": {
+            "negative": 0.5,
+            "positive": 0.5
+          },
+          "missing": 0,
+          "observed": 600,
+          "minority_to_majority_ratio": 1.0,
+          "is_imbalanced": false,
+          "threshold": 0.5
+        },
+        "target_distributions": {
+          "label": {
+            "counts": {
+              "negative": 300,
+              "positive": 300
+            },
+            "proportions": {
+              "negative": 0.5,
+              "positive": 0.5
+            },
+            "missing": 0,
+            "observed": 600
+          }
+        },
+        "text_length": {
+          "count": 600,
+          "min": 9,
+          "mean": 574.4416666666667,
+          "median": 343.0,
+          "max": 7973
+        }
+      },
+      "after": {
+        "row_count": 598,
+        "column_count": 14,
+        "missing": {
+          "record_id": 0,
+          "text": 0,
+          "audio": 598,
+          "image": 598,
+          "label": 0,
+          "source": 0,
+          "source_id": 0,
+          "collected_at": 0,
+          "dataset_name": 0,
+          "dataset_split": 0,
+          "appId": 300,
+          "appName": 300,
+          "votesUp": 300,
+          "playtimeForeverHours": 300
+        },
+        "missing_total": 2396,
+        "rows_with_missing": 598,
+        "empty_text": 0,
+        "empty_text_indices": [],
+        "duplicates": 0,
+        "duplicate_indices": [],
+        "text_duplicates": 0,
+        "text_duplicate_indices": [],
+        "outliers": {
+          "iqr": {
+            "count": 0,
+            "indices": [],
+            "q1": 182.0,
+            "q3": 591.0,
+            "iqr": 409.0,
+            "lower_bound": 0.0,
+            "upper_bound": 1204.5,
+            "multiplier": 1.5
+          },
+          "zscore": {
+            "count": 0,
+            "indices": [],
+            "mean": 436.11036789297657,
+            "std": 320.76224203071916,
+            "threshold": 3.0
+          }
+        },
+        "imbalance": {
+          "label_column": "label",
+          "counts": {
+            "negative": 299,
+            "positive": 299
+          },
+          "proportions": {
+            "negative": 0.5,
+            "positive": 0.5
+          },
+          "missing": 0,
+          "observed": 598,
+          "minority_to_majority_ratio": 1.0,
+          "is_imbalanced": false,
+          "threshold": 0.5
+        },
+        "target_distributions": {
+          "label": {
+            "counts": {
+              "negative": 299,
+              "positive": 299
+            },
+            "proportions": {
+              "negative": 0.5,
+              "positive": 0.5
+            },
+            "missing": 0,
+            "observed": 598
+          }
+        },
+        "text_length": {
+          "count": 598,
+          "min": 9,
+          "mean": 436.11036789297657,
+          "median": 343.0,
+          "max": 1204
+        }
+      },
+      "strategies": {
+        "conservative": {
+          "rows": 598,
+          "issues": {
+            "row_count": 598,
+            "column_count": 14,
+            "missing": {
+              "record_id": 0,
+              "text": 0,
+              "audio": 598,
+              "image": 598,
+              "label": 0,
+              "source": 0,
+              "source_id": 0,
+              "collected_at": 0,
+              "dataset_name": 0,
+              "dataset_split": 0,
+              "appId": 300,
+              "appName": 300,
+              "votesUp": 300,
+              "playtimeForeverHours": 300
+            },
+            "missing_total": 2396,
+            "rows_with_missing": 598,
+            "empty_text": 0,
+            "empty_text_indices": [],
+            "duplicates": 0,
+            "duplicate_indices": [],
+            "text_duplicates": 0,
+            "text_duplicate_indices": [],
+            "outliers": {
+              "iqr": {
+                "count": 0,
+                "indices": [],
+                "q1": 182.0,
+                "q3": 591.0,
+                "iqr": 409.0,
+                "lower_bound": 0.0,
+                "upper_bound": 1204.5,
+                "multiplier": 1.5
+              },
+              "zscore": {
+                "count": 0,
+                "indices": [],
+                "mean": 436.11036789297657,
+                "std": 320.76224203071916,
+                "threshold": 3.0
+              }
+            },
+            "imbalance": {
+              "label_column": "label",
+              "counts": {
+                "negative": 299,
+                "positive": 299
+              },
+              "proportions": {
+                "negative": 0.5,
+                "positive": 0.5
+              },
+              "missing": 0,
+              "observed": 598,
+              "minority_to_majority_ratio": 1.0,
+              "is_imbalanced": false,
+              "threshold": 0.5
+            },
+            "target_distributions": {
+              "label": {
+                "counts": {
+                  "negative": 299,
+                  "positive": 299
+                },
+                "proportions": {
+                  "negative": 0.5,
+                  "positive": 0.5
+                },
+                "missing": 0,
+                "observed": 598
+              }
+            },
+            "text_length": {
+              "count": 598,
+              "min": 9,
+              "mean": 436.11036789297657,
+              "median": 343.0,
+              "max": 1204
+            }
+          },
+          "actions": {
+            "strategy": "conservative",
+            "input_rows": 600,
+            "missing_rows_removed": 0,
+            "required_columns": [
+              "record_id",
+              "text",
+              "source",
+              "label"
+            ],
+            "duplicate_basis": "normalized_text",
+            "duplicate_rows_removed": 2,
+            "outlier_rows_removed": 0,
+            "texts_truncated": 41,
+            "truncate_at_chars": 1204,
+            "output_rows": 598,
+            "rows_removed": 2
+          }
+        },
+        "strict": {
+          "rows": 557,
+          "issues": {
+            "row_count": 557,
+            "column_count": 14,
+            "missing": {
+              "record_id": 0,
+              "text": 0,
+              "audio": 557,
+              "image": 557,
+              "label": 0,
+              "source": 0,
+              "source_id": 0,
+              "collected_at": 0,
+              "dataset_name": 0,
+              "dataset_split": 0,
+              "appId": 300,
+              "appName": 300,
+              "votesUp": 300,
+              "playtimeForeverHours": 300
+            },
+            "missing_total": 2314,
+            "rows_with_missing": 557,
+            "empty_text": 0,
+            "empty_text_indices": [],
+            "duplicates": 0,
+            "duplicate_indices": [],
+            "text_duplicates": 0,
+            "text_duplicate_indices": [],
+            "outliers": {
+              "iqr": {
+                "count": 7,
+                "indices": [
+                  328,
+                  392,
+                  402,
+                  417,
+                  429,
+                  436,
+                  464
+                ],
+                "q1": 172.0,
+                "q3": 522.0,
+                "iqr": 350.0,
+                "lower_bound": 0.0,
+                "upper_bound": 1047.0,
+                "multiplier": 1.5
+              },
+              "zscore": {
+                "count": 1,
+                "indices": [
+                  402
+                ],
+                "mean": 379.5870736086176,
+                "std": 252.71200114777153,
+                "threshold": 3.0
+              }
+            },
+            "imbalance": {
+              "label_column": "label",
+              "counts": {
+                "negative": 274,
+                "positive": 283
+              },
+              "proportions": {
+                "negative": 0.4919210053859964,
+                "positive": 0.5080789946140036
+              },
+              "missing": 0,
+              "observed": 557,
+              "minority_to_majority_ratio": 0.9681978798586572,
+              "is_imbalanced": false,
+              "threshold": 0.5
+            },
+            "target_distributions": {
+              "label": {
+                "counts": {
+                  "negative": 274,
+                  "positive": 283
+                },
+                "proportions": {
+                  "negative": 0.4919210053859964,
+                  "positive": 0.5080789946140036
+                },
+                "missing": 0,
+                "observed": 557
+              }
+            },
+            "text_length": {
+              "count": 557,
+              "min": 9,
+              "mean": 379.5870736086176,
+              "median": 322.0,
+              "max": 1150
+            }
+          },
+          "actions": {
+            "strategy": "strict",
+            "input_rows": 600,
+            "missing_rows_removed": 0,
+            "required_columns": [
+              "record_id",
+              "text",
+              "source",
+              "label"
+            ],
+            "duplicate_basis": "normalized_text",
+            "duplicate_rows_removed": 2,
+            "outlier_rows_removed": 41,
+            "texts_truncated": 0,
+            "output_rows": 557,
+            "rows_removed": 43
+          }
+        }
+      }
+    },
+    "annotation": {
+      "kappa": 0.7759197324414715,
+      "agreement": 0.8879598662207357,
+      "label_dist": {
+        "negative": 316,
+        "positive": 282
+      },
+      "label_distribution": {
+        "negative": {
+          "count": 316,
+          "share": 0.5284280936454849
+        },
+        "positive": {
+          "count": 282,
+          "share": 0.47157190635451507
+        }
+      },
+      "confidence_mean": 0.9794556478592863,
+      "needs_review": 30,
+      "backend_distribution": {
+        "transformers:distilbert/distilbert-base-uncased-finetuned-sst-2-english": 598
+      },
+      "degraded_fallback_used": false,
+      "against_source_label": {
+        "n_compared": 598,
+        "agreement": 0.8879598662207357,
+        "kappa": 0.7759197324414715
+      },
+      "against_human_label": {
+        "n_compared": 0,
+        "agreement": null,
+        "kappa": null
+      }
+    },
+    "hitl": {
+      "verified": true,
+      "reviewed_rows": 30,
+      "changed_labels": 0,
+      "reviewer_count": 1,
+      "auto_vs_human": {
+        "n_compared": 30,
+        "agreement": 1.0,
+        "kappa": 1.0
+      }
+    },
+    "active_learning": {
+      "random_final_f1": 0.666087,
+      "strategies": {
+        "entropy": {
+          "final_accuracy": 0.65625,
+          "final_f1_macro": 0.651677,
+          "n_to_reach_random_final_f1": null,
+          "saved_labels_vs_random": null
+        },
+        "margin": {
+          "final_accuracy": 0.65625,
+          "final_f1_macro": 0.651677,
+          "n_to_reach_random_final_f1": null,
+          "saved_labels_vs_random": null
+        },
+        "random": {
+          "final_accuracy": 0.666667,
+          "final_f1_macro": 0.666087,
+          "n_to_reach_random_final_f1": 150,
+          "saved_labels_vs_random": 0
+        }
+      },
+      "development_rows": 478,
+      "selected_training_rows": 166,
+      "outer_holdout_rows": 120,
+      "human_reviewed_training_rows": 26,
+      "selection_strategy": "entropy"
+    },
+    "model": {
+      "train_rows": 166,
+      "test_rows": 120,
+      "train_label_col": "training_label",
+      "test_gold_label_col": "source_label",
+      "evaluation_mode": "explicit_outer_holdout",
+      "accuracy": 0.7666666666666667,
+      "f1_macro": 0.7664071190211346,
+      "f1_weighted": 0.7664071190211346,
+      "confusion_matrix": [
+        [
+          44,
+          16
+        ],
+        [
+          12,
+          48
+        ]
+      ],
+      "classification_report": {
+        "negative": {
+          "precision": 0.7857142857142857,
+          "recall": 0.7333333333333333,
+          "f1-score": 0.7586206896551724,
+          "support": 60.0
+        },
+        "positive": {
+          "precision": 0.75,
+          "recall": 0.8,
+          "f1-score": 0.7741935483870968,
+          "support": 60.0
+        },
+        "accuracy": 0.7666666666666667,
+        "macro avg": {
+          "precision": 0.7678571428571428,
+          "recall": 0.7666666666666666,
+          "f1-score": 0.7664071190211346,
+          "support": 120.0
+        },
+        "weighted avg": {
+          "precision": 0.7678571428571428,
+          "recall": 0.7666666666666667,
+          "f1-score": 0.7664071190211346,
+          "support": 120.0
+        }
+      },
+      "by_source": {
+        "amazon_polarity": {
+          "rows": 60,
+          "accuracy": 0.7833333333333333,
+          "f1_macro": 0.7818181818181819,
+          "confusion_matrix": [
+            [
+              21,
+              9
+            ],
+            [
+              4,
+              26
+            ]
+          ]
+        },
+        "steam_reviews": {
+          "rows": 60,
+          "accuracy": 0.75,
+          "f1_macro": 0.7499305362600722,
+          "confusion_matrix": [
+            [
+              23,
+              7
+            ],
+            [
+              8,
+              22
+            ]
+          ]
+        }
+      },
+      "train_record_ids": [
+        "5cace7c131a46bbf68f8",
+        "2f05e4a2914e9d39b33b",
+        "b54fc59c510cd91c998a",
+        "092f4fd0c47003f05b20",
+        "9b8b97eeafddc9fcf57b",
+        "97468fbda4bbe3bed11f",
+        "f6981d7604d79d367f0c",
+        "1d8deefaf8a19d1ba616",
+        "4a827cff8d7a9f82caa8",
+        "1018eba1db52a7ff79e3",
+        "eeeb0c4db83d981f7070",
+        "d01fc625af2d33fcba5d",
+        "b50a8a24f0c5ba35005e",
+        "23e07d0147e89d284530",
+        "71231a5bc5e50adc00c2",
+        "9d872186758d9ae3a23b",
+        "93306ee1086a6ad237a7",
+        "799e197a79ca774abc06",
+        "c234e4c805e5fc785de6",
+        "e63cc54938a31de99fd4",
+        "f2e9ebc6022d0995797b",
+        "0a2acd1920ea60f0c620",
+        "3d0763ee403ba2242c91",
+        "625672b3b1a13076724d",
+        "cc03afbf55e2ff0ffaaf",
+        "aa1c05b2786a4eac4fde",
+        "2e95b249219137c23f99",
+        "377cfb20b84c6a791e41",
+        "dda3e06079e58948c1fc",
+        "7cc0421812395bb2a5ac",
+        "70911d40391914f24933",
+        "e90ed36ec044e3c137b1",
+        "6daac71402a23aca4977",
+        "4493841ef71d90831978",
+        "874afa1297f53d001e5c",
+        "e3c2f606ef6d85e38649",
+        "7b04a9601ed4f4cebc98",
+        "cd01e854907c74280656",
+        "27d0e50ea45a82aef156",
+        "3c53559aa84a2778900d",
+        "7b5c9dffcdebcfe23665",
+        "71754567bfef5448cc57",
+        "6cd322761f0f8545ad96",
+        "7aa1d8b65ed969e99ffc",
+        "2022ef47600fcf99d93a",
+        "7179f8a5b6fd80e2c5a9",
+        "9c3c81c5ea80a8b13389",
+        "e47a3e81d249827f8bc4",
+        "aefadd9e3f0d92f5b588",
+        "7b3a730b259ad73df016",
+        "4b13242da95fa1623917",
+        "60e6ea66bde28f8b2ec7",
+        "00707958cf27af2c7d3c",
+        "7122620990f484f34bd9",
+        "c63d6811dae85375f00e",
+        "9c8e29e08c7955c18aa8",
+        "e8a0b13be70fd4b21590",
+        "3767e7ad36eda3325b10",
+        "e0ca2af58c31b6206484",
+        "d6d8d8e5c8b4e0bb1788",
+        "bd3ad8609b44c405d704",
+        "a083e1aed00f587e79c7",
+        "c888f7e25b92ef3b0490",
+        "4a380e8c9c75ab77631d",
+        "4c4d270815e4dc773cb9",
+        "0fdd8775393f184ace1e",
+        "f4f291bb98451d92ce5e",
+        "f3370cfc984bb860a544",
+        "ff0cb362cbd83771d530",
+        "97a9e6214d38f6bfcbb7",
+        "332cd666f87b0a0d509f",
+        "6b6d403eafc3f55b14bc",
+        "cab97d153b6488c7d896",
+        "9b9f2625c6b5676cc056",
+        "df4dabff92c5631012e1",
+        "df20a77b23f84eb6a5b5",
+        "8d0c8684c16647a92645",
+        "a4832f5b79f4bb1adcf4",
+        "acffb406a40c748f032a",
+        "b8cfdbd69b922aba51a3",
+        "f064ad1a510697beb06c",
+        "912a562dc713e007cbbb",
+        "fdf868e4280219a3a701",
+        "82ef26bfa1901df68607",
+        "8e65db28166fe6b93814",
+        "e075ebe1cea4764f410f",
+        "6580108bff5083e4f4d1",
+        "e12a61b2b540a2632a34",
+        "b6aa06ce2a54207e2fc3",
+        "3104261b0c775f5ffe01",
+        "9aea53ae2888aa2aec42",
+        "aef3a167b3eabd5e5eea",
+        "0914a8a538e21d32a186",
+        "453e7eef87cacb6977a4",
+        "5d3969d28b275a2dbaec",
+        "f0330cfe22b15fbd30bb",
+        "9da248a94b020d49baf1",
+        "0ede67f038371eed2fad",
+        "49fd9b2845b0135d5d96",
+        "2dbca6b099a268d024de",
+        "9f1855ffeda8f7ac9827",
+        "f0ee089198f92477ef70",
+        "ccc7f4fcb320a2820370",
+        "72d5621073574a6654ad",
+        "0279b3a8e9be7ad28cb2",
+        "222f79c4feadd4f32c0c",
+        "5703d32aaa0b835be90b",
+        "2ee15c36eab515a661f3",
+        "2dd453a7658267557cb2",
+        "22bb3e837bbf56edcbd4",
+        "ff7c8db0a2179695b82b",
+        "d66dd429b857cc84a31f",
+        "a4bdb48d9edfefb42b06",
+        "40977d4defa900415d2a",
+        "b2af6d18c8b5270f8b77",
+        "56bb1a7153afbf752863",
+        "d6e58f4e6991c01d8210",
+        "fe7c8b7a1c7e86be5dda",
+        "e381c5b8a261cfbc6e08",
+        "32042d7c4ab13b5fb8b5",
+        "3e7849b020f7dd424a1b",
+        "0e3c04d7b65101624c36",
+        "6866b02af52d52205966",
+        "9c2fe96901000de8ec9e",
+        "740e4884fa0a26a39345",
+        "9715ad2913d352b02e75",
+        "2b6a577cd449c891a11c",
+        "6cc01aa07549457786c6",
+        "a306e3d01dc243b77f17",
+        "db8db7f7d3620871b2f0",
+        "ef69e724fda603ecaec0",
+        "2ccc586d319bebb9af64",
+        "4c813de34b09af5b44a9",
+        "3fad8b5cb22959ded47d",
+        "ec64e6a78a9a784f53cf",
+        "c3353ac61273fd536ee3",
+        "756e5073dca53ceb0a75",
+        "a764b9f24c39628ba74d",
+        "0e9b88a357fad533ee2c",
+        "557253656c52d3762f1a",
+        "81df36e41c85dc012bd4",
+        "a08b724c3ec06eaefcda",
+        "1f1b91d493da0c3002d0",
+        "f904c7ecb9b8a260f2ef",
+        "aa7981b3940b7247b163",
+        "f67d9a18935dda2d59cb",
+        "3a77bd80e680aa657131",
+        "baf5cdfd6bef0fa2c0ab",
+        "ba9dea4229a2f19fb344",
+        "dca8f91e3ae394713138",
+        "ebc14d242bf607c9cbcd",
+        "694dcc0fde1ac08f30b3",
+        "107dcaf8a5a1bdf51661",
+        "e4f80a7878df9242c40c",
+        "4cd96830fbe0172a4bd3",
+        "1d388da60c847b348e13",
+        "4a72f323b83f1d733ea1",
+        "174dc3b3ee26f0003d61",
+        "e326dd798760f4af415e",
+        "e481d44686e0e26c84e0",
+        "22a4af1fab10b57fc384",
+        "a528757f1ddeeab119b7",
+        "00aaaecae0210e213e00",
+        "efdb36802f6a27aef249",
+        "b33580c79f4417abf15c",
+        "323f9b321622f2b50c81"
+      ],
+      "test_record_ids": [
+        "0b7245361c10d2fdff23",
+        "7f4df91d5ec0e300997d",
+        "5b66bb2a0c29968e19d4",
+        "a018cf63ebe5976a182c",
+        "29d10e394d68ce7aa512",
+        "2bbb6c1aa90af43a2fd1",
+        "138ba43d7f12f160be73",
+        "d42e1e73b2d7a540e297",
+        "eedc165f3834f2af6395",
+        "3889d3ca8bc9971b6cb7",
+        "8e2556147bd34753fec4",
+        "91f5dea14233ac87f287",
+        "8396a42df3c8259fe7b4",
+        "f095d6156fa6b6144d4a",
+        "052ae44d85a1e59eb3a9",
+        "212d119d60a0352b7544",
+        "96ba0f956516b41678ef",
+        "6e9d8389781b9d841863",
+        "b07b47d86dd4d9b3167b",
+        "710969bbecd677d5c745",
+        "492dde8f5d417bcaf8ec",
+        "5421c614f60fde629c80",
+        "afca402d28a286a68211",
+        "3c74416fe4ae8535025a",
+        "e7bcf5a2489c153825df",
+        "a26b8022d05f5da33b84",
+        "c433d80cd26486d231a6",
+        "76087ab6797e62844f99",
+        "c29b9a1f43e86c5ad7cd",
+        "d0a193f7d163b9f985e3",
+        "0de334d1c9055c6ae9df",
+        "5398c0f111aa99e145e2",
+        "f30c385b69959534af64",
+        "a577653cb2bea05b90d7",
+        "38ed4c30c9d89e1acbcb",
+        "835796d115b02635bd24",
+        "d49b157e6008d66fdade",
+        "d6f9878afd382289ea85",
+        "5e8f975195043a59752f",
+        "5b801300a868c58941cf",
+        "24a99d9fddc696904f86",
+        "fc10606599c0a462a915",
+        "9064f9f88f1e3db21f9d",
+        "e6b8aa77a657fcd3a55e",
+        "c0879df0653f29964ad0",
+        "da497b3836a782122328",
+        "c92ef1132026048a06b4",
+        "71999b55fcfbd0db4c74",
+        "08128d478ddb67f94d9f",
+        "2996b029b9dd67868ecf",
+        "7d8ad0a7a9be835db93f",
+        "45c0a87eccff46d9a50a",
+        "bf9d403f20e5c449f126",
+        "31068caa9ac98df1829c",
+        "924babd3887913555216",
+        "1543f9fd0f2bf5c4e002",
+        "5eccda392b590961ad41",
+        "9d7d815f0c53df17cede",
+        "310c08a6e4aceec91cfa",
+        "cbd380bcebf62e8c65c3",
+        "ed7b1408cce646731e0a",
+        "ab8fd433a5a8de734f71",
+        "1d2bc90019a0818985cf",
+        "66e58912b58543637a07",
+        "3efa1e9b05a24e242486",
+        "010bb008ebfe937e2d6e",
+        "aa801010f8417f97a0f4",
+        "530963d62804a50895cd",
+        "3733d7bf037b3a7b0755",
+        "e72ee1672558b0029872",
+        "a953baa4525918304663",
+        "54c0ce9013d724f66f15",
+        "9b5a89f5a46a13c7fe0e",
+        "184c308907eecac68f03",
+        "35536ca5f2b5478c625b",
+        "72fa69596fd799ba3ed3",
+        "e5f7723048e384bf927e",
+        "26da367b0f6fbf961844",
+        "4a56d0e17146e1e0f870",
+        "aa1783fb849da2a12467",
+        "57d48472eb16ef5b89c8",
+        "7dbacd550f07035216d1",
+        "e474a0fca7f812c7c479",
+        "5c073d7f618ed9859137",
+        "1030b45288598c9b2928",
+        "ccec65f617c0b5e6e278",
+        "1b4358893a5e99c2117d",
+        "6048d373f1c03c54f585",
+        "0be4c3d2eb45ea864de4",
+        "95c925ea6a23a9baa3c7",
+        "a3b896362819cf1920ce",
+        "4c1f54705de6a66c8502",
+        "c9905897ab9837a2b6ca",
+        "2a2b13a41cac1a015064",
+        "2d833971d6c38bbbc1f7",
+        "4202975eada0c83168a9",
+        "02b2b4aa5c0f4dd48aed",
+        "74b589dc7b2944d8b107",
+        "b5a7d5ba87d58a5f2960",
+        "0f71dc74f7c5440974ac",
+        "fe4827f34e117b2157c8",
+        "df9624744509b5516824",
+        "7b9da8ad81856f03d6c0",
+        "8ef8c3da87cb9eaaf3a4",
+        "4b667ce0f9f1ce84daee",
+        "e57faaa4ade9e69ad090",
+        "381fcbc57169e15f147a",
+        "aea9b19dfaee12373e40",
+        "596b93bc34411caa3509",
+        "5c660f606fada04f3547",
+        "504236c07af2c03a7cd6",
+        "2faa2253f746b7cf71ae",
+        "3f50aa5b965e8a2b8a4d",
+        "12ea93ccf72d8104725e",
+        "db3459f09044c72a2bcc",
+        "97dcb3e58b05a7b598ee",
+        "ad564abee50486d71b80",
+        "ae055829ab4c4c092293",
+        "582ef88e991e27215c5e",
+        "f209f5477bdde3bd5135"
+      ]
+    }
+  },
+  "message": "Pipeline completed with verified human review."
+}

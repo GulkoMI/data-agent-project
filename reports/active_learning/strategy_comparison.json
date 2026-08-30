@@ -1,0 +1,23 @@
+{
+  "random_final_f1": 0.666087,
+  "strategies": {
+    "entropy": {
+      "final_accuracy": 0.65625,
+      "final_f1_macro": 0.651677,
+      "n_to_reach_random_final_f1": null,
+      "saved_labels_vs_random": null
+    },
+    "margin": {
+      "final_accuracy": 0.65625,
+      "final_f1_macro": 0.651677,
+      "n_to_reach_random_final_f1": null,
+      "saved_labels_vs_random": null
+    },
+    "random": {
+      "final_accuracy": 0.666667,
+      "final_f1_macro": 0.666087,
+      "n_to_reach_random_final_f1": 150,
+      "saved_labels_vs_random": 0
+    }
+  }
+}

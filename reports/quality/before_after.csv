@@ -1,0 +1,14 @@
+metric,before,after,change,improved
+rows,600.0,598.0,-2.0,
+missing_cells,2400.0,2396.0,-4.0,True
+rows_with_missing,600.0,598.0,-2.0,True
+empty_text,0.0,0.0,0.0,False
+exact_duplicates,0.0,0.0,0.0,False
+normalized_text_duplicates,2.0,0.0,-2.0,True
+text_length_iqr_outliers,42.0,0.0,-42.0,True
+text_length_zscore_outliers,13.0,0.0,-13.0,True
+class_balance_ratio,1.0,1.0,0.0,False
+target_count:negative,300.0,299.0,-1.0,
+target_share:negative,0.5,0.5,0.0,
+target_count:positive,300.0,299.0,-1.0,
+target_share:positive,0.5,0.5,0.0,

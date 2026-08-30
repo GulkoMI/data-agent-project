@@ -1,0 +1,14 @@
+record_id,text,audio,image,label,source,source_id,collected_at
+fixture-amz-01,"Excellent quality and fast delivery, I love this product.",,,positive,fixture:amazon,amz-01,2026-01-01T00:00:00+00:00
+fixture-amz-02,"A wonderful purchase that works exactly as promised.",,,positive,fixture:amazon,amz-02,2026-01-01T00:00:00+00:00
+fixture-amz-03,"Terrible build quality and a complete waste of money.",,,negative,fixture:amazon,amz-03,2026-01-01T00:00:00+00:00
+fixture-amz-04,"The item broke immediately and support was useless.",,,negative,fixture:amazon,amz-04,2026-01-01T00:00:00+00:00
+fixture-amz-05,"Surprisingly good value and very easy to use.",,,positive,fixture:amazon,amz-05,2026-01-01T00:00:00+00:00
+fixture-amz-06,"Nothing matched the description and I returned it.",,,negative,fixture:amazon,amz-06,2026-01-01T00:00:00+00:00
+fixture-steam-01,"Great gameplay, polished mechanics, and hours of fun.",,,positive,fixture:steam,steam-01,2026-01-02T00:00:00+00:00
+fixture-steam-02,"The update made the game even better.",,,positive,fixture:steam,steam-02,2026-01-02T00:00:00+00:00
+fixture-steam-03,"Constant crashes and awful matchmaking ruined it.",,,negative,fixture:steam,steam-03,2026-01-02T00:00:00+00:00
+fixture-steam-04,"Boring grind, broken servers, and no useful support.",,,negative,fixture:steam,steam-04,2026-01-02T00:00:00+00:00
+fixture-steam-05,"Not perfect, but the campaign was creative and enjoyable.",,,positive,fixture:steam,steam-05,2026-01-02T00:00:00+00:00
+fixture-steam-06,"I wanted to like it, yet every session felt frustrating.",,,negative,fixture:steam,steam-06,2026-01-02T00:00:00+00:00
+

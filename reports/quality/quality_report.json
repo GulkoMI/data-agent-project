@@ -1,0 +1,346 @@
+{
+  "generated_at": "2026-08-30T14:10:19.402822+00:00",
+  "strategy": "conservative",
+  "strategy_config": {
+    "missing": "drop_required",
+    "duplicates": "drop",
+    "outliers": "clip_iqr"
+  },
+  "rationale": "The conservative strategy removes unusable required-field rows and normalized-text duplicates, while retaining short reviews and truncating only the unusually long tail. This preserves more domain coverage for sentiment classification. Strategy name: conservative. Target-distribution total variation before versus after is 0.0000; labels themselves were never rewritten.",
+  "before": {
+    "row_count": 600,
+    "column_count": 14,
+    "missing": {
+      "record_id": 0,
+      "text": 0,
+      "audio": 600,
+      "image": 600,
+      "label": 0,
+      "source": 0,
+      "source_id": 0,
+      "collected_at": 0,
+      "dataset_name": 0,
+      "dataset_split": 0,
+      "appId": 300,
+      "appName": 300,
+      "votesUp": 300,
+      "playtimeForeverHours": 300
+    },
+    "missing_total": 2400,
+    "rows_with_missing": 600,
+    "empty_text": 0,
+    "empty_text_indices": [],
+    "duplicates": 0,
+    "duplicate_indices": [],
+    "text_duplicates": 2,
+    "text_duplicate_indices": [
+      333,
+      539
+    ],
+    "outliers": {
+      "iqr": {
+        "count": 42,
+        "indices": [
+          304,
+          306,
+          308,
+          320,
+          322,
+          325,
+          326,
+          338,
+          343,
+          344,
+          351,
+          369,
+          371,
+          378,
+          382,
+          384,
+          387,
+          390,
+          392,
+          393,
+          398,
+          401,
+          406,
+          437,
+          442,
+          457,
+          458,
+          469,
+          477,
+          485,
+          487,
+          493,
+          500,
+          532,
+          537,
+          539,
+          548,
+          567,
+          573,
+          576,
+          587,
+          589
+        ],
+        "q1": 182.0,
+        "q3": 592.75,
+        "iqr": 410.75,
+        "lower_bound": 0.0,
+        "upper_bound": 1208.875,
+        "multiplier": 1.5
+      },
+      "zscore": {
+        "count": 13,
+        "indices": [
+          322,
+          325,
+          343,
+          369,
+          371,
+          378,
+          382,
+          387,
+          406,
+          457,
+          493,
+          548,
+          567
+        ],
+        "mean": 574.4416666666667,
+        "std": 918.234058722079,
+        "threshold": 3.0
+      }
+    },
+    "imbalance": {
+      "label_column": "label",
+      "counts": {
+        "negative": 300,
+        "positive": 300
+      },
+      "proportions": {
+        "negative": 0.5,
+        "positive": 0.5
+      },
+      "missing": 0,
+      "observed": 600,
+      "minority_to_majority_ratio": 1.0,
+      "is_imbalanced": false,
+      "threshold": 0.5
+    },
+    "target_distributions": {
+      "label": {
+        "counts": {
+          "negative": 300,
+          "positive": 300
+        },
+        "proportions": {
+          "negative": 0.5,
+          "positive": 0.5
+        },
+        "missing": 0,
+        "observed": 600
+      }
+    },
+    "text_length": {
+      "count": 600,
+      "min": 9,
+      "mean": 574.4416666666667,
+      "median": 343.0,
+      "max": 7973
+    }
+  },
+  "after": {
+    "row_count": 598,
+    "column_count": 14,
+    "missing": {
+      "record_id": 0,
+      "text": 0,
+      "audio": 598,
+      "image": 598,
+      "label": 0,
+      "source": 0,
+      "source_id": 0,
+      "collected_at": 0,
+      "dataset_name": 0,
+      "dataset_split": 0,
+      "appId": 300,
+      "appName": 300,
+      "votesUp": 300,
+      "playtimeForeverHours": 300
+    },
+    "missing_total": 2396,
+    "rows_with_missing": 598,
+    "empty_text": 0,
+    "empty_text_indices": [],
+    "duplicates": 0,
+    "duplicate_indices": [],
+    "text_duplicates": 0,
+    "text_duplicate_indices": [],
+    "outliers": {
+      "iqr": {
+        "count": 0,
+        "indices": [],
+        "q1": 182.0,
+        "q3": 591.0,
+        "iqr": 409.0,
+        "lower_bound": 0.0,
+        "upper_bound": 1204.5,
+        "multiplier": 1.5
+      },
+      "zscore": {
+        "count": 0,
+        "indices": [],
+        "mean": 436.11036789297657,
+        "std": 320.76224203071916,
+        "threshold": 3.0
+      }
+    },
+    "imbalance": {
+      "label_column": "label",
+      "counts": {
+        "negative": 299,
+        "positive": 299
+      },
+      "proportions": {
+        "negative": 0.5,
+        "positive": 0.5
+      },
+      "missing": 0,
+      "observed": 598,
+      "minority_to_majority_ratio": 1.0,
+      "is_imbalanced": false,
+      "threshold": 0.5
+    },
+    "target_distributions": {
+      "label": {
+        "counts": {
+          "negative": 299,
+          "positive": 299
+        },
+        "proportions": {
+          "negative": 0.5,
+          "positive": 0.5
+        },
+        "missing": 0,
+        "observed": 598
+      }
+    },
+    "text_length": {
+      "count": 598,
+      "min": 9,
+      "mean": 436.11036789297657,
+      "median": 343.0,
+      "max": 1204
+    }
+  },
+  "target_shift": {
+    "label_column": "label",
+    "total_variation": 0.0,
+    "max_abs_share_change": 0.0
+  },
+  "comparison": [
+    {
+      "metric": "rows",
+      "before": 600.0,
+      "after": 598.0,
+      "change": -2.0,
+      "improved": null
+    },
+    {
+      "metric": "missing_cells",
+      "before": 2400.0,
+      "after": 2396.0,
+      "change": -4.0,
+      "improved": true
+    },
+    {
+      "metric": "rows_with_missing",
+      "before": 600.0,
+      "after": 598.0,
+      "change": -2.0,
+      "improved": true
+    },
+    {
+      "metric": "empty_text",
+      "before": 0.0,
+      "after": 0.0,
+      "change": 0.0,
+      "improved": false
+    },
+    {
+      "metric": "exact_duplicates",
+      "before": 0.0,
+      "after": 0.0,
+      "change": 0.0,
+      "improved": false
+    },
+    {
+      "metric": "normalized_text_duplicates",
+      "before": 2.0,
+      "after": 0.0,
+      "change": -2.0,
+      "improved": true
+    },
+    {
+      "metric": "text_length_iqr_outliers",
+      "before": 42.0,
+      "after": 0.0,
+      "change": -42.0,
+      "improved": true
+    },
+    {
+      "metric": "text_length_zscore_outliers",
+      "before": 13.0,
+      "after": 0.0,
+      "change": -13.0,
+      "improved": true
+    },
+    {
+      "metric": "class_balance_ratio",
+      "before": 1.0,
+      "after": 1.0,
+      "change": 0.0,
+      "improved": false
+    },
+    {
+      "metric": "target_count:negative",
+      "before": 300.0,
+      "after": 299.0,
+      "change": -1.0,
+      "improved": null
+    },
+    {
+      "metric": "target_share:negative",
+      "before": 0.5,
+      "after": 0.5,
+      "change": 0.0,
+      "improved": null
+    },
+    {
+      "metric": "target_count:positive",
+      "before": 300.0,
+      "after": 299.0,
+      "change": -1.0,
+      "improved": null
+    },
+    {
+      "metric": "target_share:positive",
+      "before": 0.5,
+      "after": 0.5,
+      "change": 0.0,
+      "improved": null
+    }
+  ],
+  "artifacts": {
+    "comparison": "before_after.csv",
+    "plots": {
+      "missing_values": "missing_values.png",
+      "empty_text": "empty_text.png",
+      "duplicates": "duplicates.png",
+      "outliers": "text_length_outliers.png",
+      "class_imbalance": "class_imbalance.png"
+    }
+  }
+}
