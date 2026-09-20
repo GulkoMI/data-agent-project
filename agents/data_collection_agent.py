@@ -184,7 +184,10 @@ class DataCollectionAgent:
 
         self.config_path = config_path.resolve()
         self.config = read_yaml(self.config_path)
-        self.root = self.config_path.parent
+        configured_root = Path(str(self.config.get("project", {}).get("root", "."))).expanduser()
+        self.root = (
+            configured_root if configured_root.is_absolute() else self.config_path.parent / configured_root
+        ).resolve()
         self.paths = ProjectPaths.from_config(self.root, self.config)
         self.paths.create()
         self.collection_config = self.config.get("collection", {})
@@ -194,6 +197,23 @@ class DataCollectionAgent:
     # ------------------------------------------------------------------
     # Public source skills
     # ------------------------------------------------------------------
+    def collect_media(
+        self,
+        sources: Sequence[Mapping[str, Any] | str] | None = None,
+        *,
+        modality: str | None = None,
+    ) -> pd.DataFrame:
+        """Collect local image/video assets without invoking the text/HF workflow.
+
+        Rows retain unassigned labels and source/group provenance; the visual
+        runner decides quality, group splitting, and frame preparation next.
+        """
+        from agents.media_collection import collect_media_sources
+
+        selected = sources if sources is not None else self.collection_config.get("sources", [])
+        chosen_modality = modality or self.config.get("project", {}).get("modality", "")
+        return collect_media_sources(selected, self.root, str(chosen_modality))
+
     def scrape(self, url: str, selector: str) -> pd.DataFrame:
         """Download a page and turn matching text elements into canonical rows."""
         timeout = float(self.collection_config.get("request_timeout", 30))

@@ -62,8 +62,19 @@ class PipelineRunner:
         if not config_path.is_absolute():
             config_path = Path.cwd() / config_path
         self.config_path = config_path.resolve()
-        self.root = self.config_path.parent
         self.config = read_yaml(self.config_path)
+        self.root = (
+            self.config_path.parent / self.config.get("project", {}).get("root", ".")
+        ).resolve()
+        self._media_runner = None
+        modality = self.config.get("project", {}).get(
+            "modality", self.config.get("task", {}).get("modality", "text")
+        )
+        if modality in {"image", "video"}:
+            from pipeline.media_runner import MediaPipelineRunner
+
+            self._media_runner = MediaPipelineRunner(self.config_path)
+            return
         self.base_paths = ProjectPaths.from_config(self.root, self.config)
         self._configure_runtime(offline=False)
 
@@ -108,6 +119,13 @@ class PipelineRunner:
         exists. ``terminal`` asks a person to review every queued record.
         ``auto-only`` is for CI and explicitly does not satisfy HITL.
         """
+        if self._media_runner is not None:
+            return self._media_runner.run(
+                offline=offline,
+                force=force,
+                review_mode=review_mode,
+                reviewer=reviewer,
+            )
         if review_mode not in {"required", "terminal", "auto-only"}:
             raise ValueError("review_mode must be required, terminal, or auto-only")
         self._configure_runtime(offline=offline)

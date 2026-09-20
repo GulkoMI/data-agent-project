@@ -43,6 +43,7 @@ models/huggingface/
 # Generated caches and isolated smoke-test outputs
 data/cache/
 data/runs/
+data/input/
 data/smoke/
 models/smoke/
 reports/smoke/

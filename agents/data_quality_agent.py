@@ -89,6 +89,20 @@ class DataQualityAgent:
         self.report_dir = chosen_path if chosen_path.is_absolute() else project_root / chosen_path
 
     # ------------------------------------------------------------------ detection
+    def detect_media_issues(self, df: pd.DataFrame) -> dict[str, Any]:
+        """Inspect visual asset rows without requiring text or source labels."""
+        from agents.media_quality import MediaQualityAgent
+
+        return MediaQualityAgent(self.config).detect_issues(df)
+
+    def fix_media(
+        self, df: pd.DataFrame, strategy: str | Mapping[str, Any] = "conservative",
+    ) -> pd.DataFrame:
+        """Clean visual assets; retained labels and original media stay untouched."""
+        from agents.media_quality import MediaQualityAgent
+
+        return MediaQualityAgent(self.config).fix(df, strategy)
+
     def detect_issues(self, df: pd.DataFrame) -> dict[str, Any]:
         """Return a JSON-serializable quality report without mutating ``df``."""
         self._validate_frame(df)

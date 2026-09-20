@@ -1,0 +1,56 @@
+# Copy this configuration and describe your own classification task.
+# Paths below are relative to project.root, not to the shell's working directory.
+project:
+  root: ..
+  modality: video  # image uses the same pipeline with one sample per photo
+  random_seed: 42
+  labels: [target, other]
+
+task:
+  id: visual-classification
+  version: "1"
+  description: "Classify the visible content using the class definitions below."
+  classes:
+    - name: target
+      definition: "A person is visibly walking through the scene."
+      examples: ["A person walks across a room", "A person walks along a pavement", "A person walks up a path"]
+    - name: other
+      definition: "No person is visibly walking; include stationary people and scenes without people."
+      examples: ["A seated person", "An empty street", "A stationary vehicle"]
+  boundary_rules:
+    - "If the frames cannot distinguish walking from standing, abstain and request denser frames."
+    - "Choose one class per clip. Flag clips containing a transition for human review."
+
+collection:
+  sources:
+    - type: local
+      id: local-media
+      path: data/input
+
+sampling:
+  clip_duration_sec: 5
+  frame_interval_sec: 1
+  max_frames_per_clip: 8
+  max_dimension: 1024
+
+quality:
+  selected_strategy: conservative  # strict also removes IQR dimension/duration outliers
+
+# This local baseline needs no model download. It measures image appearance and
+# temporal changes, not semantic actions. Optional pretrained encoders are
+# described in docs/media_pipeline.md.
+features:
+  backend: statistics
+
+# Annotation is useful on its own, including a single video. Enable training
+# explicitly once there are reviewed examples from at least two classes.
+training:
+  enabled: false
+  test_size: 0  # >0 reserves entire source groups, never individual frames
+
+active_learning:
+  enabled: false
+  initial_size: 50
+  n_iterations: 5
+  batch_size: 20
+  strategy: entropy

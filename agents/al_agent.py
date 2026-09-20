@@ -17,8 +17,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
 from agents.common import LABELS, write_json
+from agents.features import assert_disjoint_groups, feature_matrix
 
 
 class ActiveLearningAgent:
@@ -40,6 +42,18 @@ class ActiveLearningAgent:
         self.last_query_scores: np.ndarray | None = None
 
     def _make_pipeline(self) -> Pipeline:
+        if self.config.get("feature_column"):
+            return Pipeline(
+                [
+                    ("scale", StandardScaler()),
+                    (
+                        "classifier",
+                        LogisticRegression(
+                            max_iter=1000, class_weight="balanced", random_state=self.random_seed
+                        ),
+                    ),
+                ]
+            )
         tfidf = self.config.get("tfidf", {})
         ngram = tuple(tfidf.get("ngram_range", [1, 2]))
         return Pipeline(
@@ -70,7 +84,7 @@ class ActiveLearningAgent:
         if labeled_df[label_col].nunique() < 2:
             raise ValueError("Active learning requires at least two classes in labeled_df")
         self.pipeline = self._make_pipeline()
-        self.pipeline.fit(labeled_df["text"].astype(str), labeled_df[label_col].astype(str))
+        self.pipeline.fit(self._inputs(labeled_df), labeled_df[label_col].astype(str))
         return self.pipeline
 
     def query(
@@ -85,6 +99,8 @@ class ActiveLearningAgent:
             raise RuntimeError("Call fit() before query()")
         if pool.empty:
             return []
+        if int(batch_size) <= 0:
+            raise ValueError("batch_size must be positive")
         size = min(int(batch_size), len(pool))
         strategy = strategy.lower()
 
@@ -94,7 +110,7 @@ class ActiveLearningAgent:
             self.last_query_scores = np.full(len(pool), np.nan)
             return indices.tolist()
 
-        probabilities = self.pipeline.predict_proba(pool["text"].astype(str))
+        probabilities = self.pipeline.predict_proba(self._inputs(pool))
         if strategy == "entropy":
             scores = -np.sum(probabilities * np.log(probabilities + 1e-12), axis=1)
             indices = np.argsort(-scores, kind="stable")[:size]
@@ -122,6 +138,8 @@ class ActiveLearningAgent:
     ) -> dict[str, float]:
         """Evaluate a fitted model, or fit on labeled_df first when test_df is supplied."""
         if test_df is not None:
+            if self.config.get("feature_column"):
+                assert_disjoint_groups(labeled_df, test_df)
             self.fit(labeled_df, label_col=train_label_col)
             evaluation = test_df
             label_col = test_label_col or train_label_col
@@ -131,7 +149,7 @@ class ActiveLearningAgent:
         if self.pipeline is None:
             raise RuntimeError("Call fit() before evaluate()")
         self._validate_frame(evaluation, label_col=label_col)
-        predictions = self.pipeline.predict(evaluation["text"].astype(str))
+        predictions = self.pipeline.predict(self._inputs(evaluation))
         truth = evaluation[label_col].astype(str)
         return {
             "accuracy": float(accuracy_score(truth, predictions)),
@@ -159,6 +177,12 @@ class ActiveLearningAgent:
         """
         current_labeled = labeled_df.copy().reset_index(drop=True)
         current_pool = pool_df.copy().reset_index(drop=True)
+        if self.config.get("feature_column"):
+            assert_disjoint_groups(current_labeled, test_df)
+            assert_disjoint_groups(current_pool, test_df)
+            overlap = set(current_labeled["record_id"]) & set(current_pool["record_id"])
+            if overlap:
+                raise ValueError("Initial labeled data overlaps the AL pool")
         if "al_label" not in current_labeled:
             if initial_label_col not in current_labeled.columns:
                 raise ValueError(f"Initial labeled data is missing {initial_label_col!r}")
@@ -213,6 +237,11 @@ class ActiveLearningAgent:
         oracle_label_col: str = "source_label",
     ) -> dict[str, Any]:
         """Use exactly the same stratified split, initial set, pool, and test for every strategy."""
+        if self.config.get("feature_column"):
+            raise ValueError(
+                "For media, use run_cycle with explicit source-group-disjoint initial/pool/test "
+                "frames, or the resumable media CLI for human labeling"
+            )
         if not strategies:
             raise ValueError("At least one active-learning strategy is required")
         if int(initial_size) < 2:
@@ -363,14 +392,19 @@ class ActiveLearningAgent:
         write_json(comparison, output / "strategy_comparison.json")
         return comparison
 
-    @staticmethod
-    def _validate_frame(frame: pd.DataFrame, *, label_col: str) -> None:
-        required = {"record_id", "text", label_col}
+    def _inputs(self, frame: pd.DataFrame) -> Any:
+        column = self.config.get("feature_column")
+        return feature_matrix(frame, column) if column else frame["text"].astype(str)
+
+    def _validate_frame(self, frame: pd.DataFrame, *, label_col: str) -> None:
+        required = {"record_id", self.config.get("feature_column", "text"), label_col}
         missing = sorted(required - set(frame.columns))
         if missing:
             raise ValueError(f"Missing required columns: {missing}")
         if frame.empty:
             raise ValueError("DataFrame is empty")
+        if frame[label_col].isna().any():
+            raise ValueError(f"Missing labels in {label_col}")
 
 
 __all__ = ["ActiveLearningAgent"]

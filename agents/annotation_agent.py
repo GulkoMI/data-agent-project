@@ -115,6 +115,25 @@ class AnnotationAgent:
     ``(label, score)`` pairs.
     """
 
+    @classmethod
+    def for_task(
+        cls,
+        task: Any,
+        *,
+        config: str | Path | Mapping[str, Any] | None = None,
+        backend: Any | None = None,
+    ) -> Any:
+        """Select the existing text annotator or the external visual hand-off."""
+        if task.modality in {"image", "video"}:
+            from agents.visual_annotation import VisualAnnotationAgent
+
+            if backend is not None:
+                raise ValueError("Visual annotation uses file responses, not a prediction backend")
+            return VisualAnnotationAgent(task)
+        if task.modality != "text":
+            raise ValueError(f"Unsupported annotation modality: {task.modality}")
+        return cls(modality="text", config=config, backend=backend)
+
     def __init__(
         self,
         modality: str = "text",
